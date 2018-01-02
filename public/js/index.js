@@ -6,10 +6,6 @@ var socket = io();
             //     to: 'jack@example.ocm',
             //     text: 'How are you'
             // });
-            socket.emit('createMessage',{
-                from: 'jans@gmail.com',
-                text: 'Hello'
-            });
         });
 
         socket.on('disconnect',function(){

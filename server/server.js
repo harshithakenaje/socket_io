@@ -25,14 +25,14 @@ io.on('connection',(socket)=>{
     // socket.on('createEmail',(newEmail)=>{
     //     console.log('create email:',newEmail);
     // });
-    socket.emit('newMessage',{
-        from: 'hani@example.com',
-        text: 'Hey',
-        createdAt: 123
-    });
     socket.on('createMessage',(newMessage)=>{
         console.log('create message:',newMessage);
-    })
+        io.emit('newMessage',{
+            from: newMessage.from,
+            text: newMessage.text,
+            createdAt: new Date().getTime()
+        });
+    });
     socket.on('disconnect',(socket)=>{
         console.log('User disconnected');
     });
