@@ -14,19 +14,34 @@ var socket = io();
         }
     }
         socket.on('connect',function() {
-            console.log('connected to server');
-            // socket.emit('createEmail',{
-            //     to: 'jack@example.ocm',
-            //     text: 'How are you'
-            // });
+            var params = jQuery.deparam(window.location.search);
+
+            socket.emit('join',params, function(err){
+                if(err){
+                    alert(err);
+                    window.location.href ='/';
+                }
+                else{
+                    console.log('no error');
+                }
+            });
         });
 
         socket.on('disconnect',function(){
             console.log('Disconnected from server');
         });
-        // socket.on('newEmail',function(email){
-        //     console.log('New email',email);
-        // });
+       
+       socket.on('updateUserList',function(users) {
+        // console.log('Users List',users);
+        var ol = jQuery('<ol></ol>');
+
+        users.forEach(function(user){
+            ol.append(jQuery('<li></li>').text(user));
+
+        });
+        jQuery('#users').html(ol);
+       }
+       )
         socket.on('newMessage',function(message){
             var formattedTime = moment(message.createdAt).format('h:mm a');
             var template = jQuery('#message-template').html();
